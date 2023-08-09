@@ -13,8 +13,12 @@ import java.util.List;
 @Repository
 public class BooksJdbcRepository implements BaseBooksJdbcRepository {
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public BooksJdbcRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public Book getBookById(Long id) throws NotFoundBookCustomException {
@@ -38,8 +42,8 @@ public class BooksJdbcRepository implements BaseBooksJdbcRepository {
 
     @Override
     public int addBook(Book book) {
-        return jdbcTemplate.update("INSERT INTO tutorials (title, author, description, price, quantity) VALUES(?,?,?,?,?)",
-                book.getTitle(), book.getAuthor(), book.getDescription(), book.getPrice(), book.getQuantity());
+        return jdbcTemplate.update("INSERT INTO books (id,title, author, description, price, quantity) VALUES(?,?,?,?,?,?)",
+                book.getId(), book.getTitle(), book.getAuthor(), book.getDescription(), book.getPrice(), book.getQuantity());
 
     }
 
@@ -47,7 +51,7 @@ public class BooksJdbcRepository implements BaseBooksJdbcRepository {
     public int updateBook(Long id, Book book) throws NotFoundBookCustomException {
         getBookById(id);
         return jdbcTemplate.update("UPDATE books SET title=?, author=?, description=?,price=?,quantity=? WHERE id=?",
-                book.getTitle(), book.getAuthor(), book.getDescription(), book.getPrice(), book.getQuantity());
+                book.getTitle(), book.getAuthor(), book.getDescription(), book.getPrice(), book.getQuantity() ,id);
     }
 
     @Override

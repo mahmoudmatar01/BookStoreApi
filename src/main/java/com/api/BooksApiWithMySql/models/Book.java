@@ -7,7 +7,8 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "books")
+@Table(name = "books_jpa") // when using JPA
+//@Table(name = "books") // when using JDBC
 public class Book {
 
     @Id

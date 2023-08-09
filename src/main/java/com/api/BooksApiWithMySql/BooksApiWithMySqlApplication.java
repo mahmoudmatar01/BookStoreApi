@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 @SpringBootApplication
 //@EnableJpaRepositories("com.api.BooksApiWithMySql.repository")
-//@ComponentScan
+@ComponentScan
 // Specify the package where your repository is located
 //@EntityScan("com.api.BooksApiWithMySql.models")
 public class BooksApiWithMySqlApplication {

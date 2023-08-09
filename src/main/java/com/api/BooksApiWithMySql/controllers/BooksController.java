@@ -8,6 +8,7 @@ import com.api.BooksApiWithMySql.interfaces.BaseBooksService;
 import com.api.BooksApiWithMySql.models.Book;
 import com.api.BooksApiWithMySql.responses.Response;
 import com.api.BooksApiWithMySql.service.BooksJdbcService;
+import com.api.BooksApiWithMySql.service.BooksJpaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +22,17 @@ public class BooksController {
     private final BaseBooksService service;
 
     // For JPA Service :
-//    @Autowired
-//    public BooksController(BooksJpaService service) {
-//        this.service = service;
-//    }
+    @Autowired
+    public BooksController(BooksJpaService service) {
+        this.service = service;
+    }
 
 
     // For JDBC Service :
-    @Autowired
-    public BooksController(BooksJdbcService service) {
-        this.service = service;
-    }
+//    @Autowired
+//    public BooksController(BooksJdbcService service) {
+//        this.service = service;
+//    }
 
     //    @RequestMapping(method=GET)
     @GetMapping("/")
@@ -43,6 +44,7 @@ public class BooksController {
 
     @PostMapping("/")
     public ResponseEntity<Response<Book>> addBook(@RequestBody Book book) {
+        service.addBook(book);
         SuccessFactory<Book> factory = new SuccessFactory<>(book);
         return ResponseEntity.ok(factory.createResponse());
     }
