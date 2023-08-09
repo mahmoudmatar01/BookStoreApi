@@ -56,6 +56,7 @@ public class BooksJpaService extends BaseBooksService {
         b.setDescription(book.getDescription());
         b.setPrice(book.getPrice());
         b.setQuantity(book.getQuantity());
+        b.setId(book.getId());
 
         return repository.save(book);
 
