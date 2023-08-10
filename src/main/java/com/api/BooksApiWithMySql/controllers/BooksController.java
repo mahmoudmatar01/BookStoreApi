@@ -10,6 +10,7 @@ import com.api.BooksApiWithMySql.responses.Response;
 import com.api.BooksApiWithMySql.service.BooksJdbcService;
 import com.api.BooksApiWithMySql.service.BooksJpaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -90,6 +91,47 @@ public class BooksController {
         } catch (NotFoundBookCustomException e) {
             FailureFactory factory = new FailureFactory(e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(factory.createResponse());
+        }
+    }
+
+    @GetMapping("/price")
+    public ResponseEntity<Response> getBooksWithPrice(
+            @RequestParam(name = "start") double start,
+            @RequestParam(name = "end") double end) {
+        try {
+
+            SuccessFactory<List<Book>> factory = new SuccessFactory<>(service.findBooksWithPriceBetween(start, end));
+            return ResponseEntity.ok(factory.createResponse());
+        } catch (Exception e) {
+            FailureFactory factory = new FailureFactory(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(factory.createResponse());
+        }
+
+    }
+
+
+    @GetMapping("/author/{author}")
+    public ResponseEntity<Response> getBooksWithAuthorName(@PathVariable String author) {
+        try {
+
+            SuccessFactory<List<Book>> factory = new SuccessFactory<>(service.findBooksByAuthor(author));
+            return ResponseEntity.ok(factory.createResponse());
+        } catch (Exception e) {
+            FailureFactory factory = new FailureFactory(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(factory.createResponse());
+        }
+    }
+
+
+    @GetMapping("/title/{title}")
+    public ResponseEntity<Response> getBooksWithTitle(@PathVariable String title){
+        try {
+
+            SuccessFactory<List<Book>> factory = new SuccessFactory<>(service.findBooksByTitle(title));
+            return ResponseEntity.ok(factory.createResponse());
+        } catch (Exception e) {
+            FailureFactory factory = new FailureFactory(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(factory.createResponse());
         }
     }
 

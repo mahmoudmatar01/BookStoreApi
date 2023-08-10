@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BooksService extends BaseBooksService {
+abstract public class BooksService extends BaseBooksService {
 
     private final BaseRepository<Book> repository;
 

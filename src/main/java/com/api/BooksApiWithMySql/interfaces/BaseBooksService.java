@@ -19,4 +19,10 @@ public abstract class BaseBooksService {
     abstract public Book updateBook(Long id, Book book) throws NotFoundBookCustomException;
 
     abstract public Book deleteBook(Long id) throws NotFoundBookCustomException;
+
+    abstract public List<Book> findBooksWithPriceBetween(double start, double end);
+
+    abstract public List<Book> findBooksByTitle(String title);
+
+    abstract public List<Book> findBooksByAuthor(String author);
 }

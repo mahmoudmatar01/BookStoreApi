@@ -17,7 +17,7 @@ public class BooksJpaService extends BaseBooksService {
 
     @Autowired
     private BooksJpaRepository repository;
-//
+
 //    @Autowired
 //    public BooksJpaService(BooksJpaRepository repository) {
 //        this.repository = repository;
@@ -67,6 +67,21 @@ public class BooksJpaService extends BaseBooksService {
         Book book = getBookById(id);
         repository.delete(book);
         return book;
+    }
+
+    @Override
+    public List<Book> findBooksWithPriceBetween(double start, double end) {
+        return repository.findBooksByPriceBetweenOrderByPriceDesc(start,end);
+    }
+
+    @Override
+    public List<Book> findBooksByTitle(String title) {
+       return repository.findBookByTitleLikeOrderByPriceDesc(title);
+    }
+
+    @Override
+    public List<Book> findBooksByAuthor(String author) {
+       return repository.findBookByAuthorLikeOrderByPriceDesc(author);
     }
 
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BooksJdbcService extends BaseBooksService {
+abstract public class BooksJdbcService extends BaseBooksService {
 
     @Autowired
     private BooksJdbcRepository repository;
