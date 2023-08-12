@@ -1,6 +1,6 @@
 package com.api.BooksApiWithMySql.service;
 
-import com.api.BooksApiWithMySql.exceptions.NotFoundBookCustomException;
+import com.api.BooksApiWithMySql.exceptions.NotFoundResourceCustomException;
 import com.api.BooksApiWithMySql.interfaces.BaseBooksService;
 import com.api.BooksApiWithMySql.models.Book;
 import com.api.BooksApiWithMySql.repository.BooksJdbcRepository;
@@ -34,12 +34,12 @@ abstract public class BooksJdbcService extends BaseBooksService {
     }
 
     @Override
-    public Book getBookById(Long id) throws NotFoundBookCustomException {
+    public Book getBookById(Long id) throws NotFoundResourceCustomException {
         return repository.getBookById(id);
     }
 
     @Override
-    public Book updateBook(Long id, Book book) throws NotFoundBookCustomException {
+    public Book updateBook(Long id, Book book) throws NotFoundResourceCustomException {
         int rows = repository.updateBook(id, book);
         if (rows <= 0)
             return null;
@@ -47,7 +47,7 @@ abstract public class BooksJdbcService extends BaseBooksService {
     }
 
     @Override
-    public Book deleteBook(Long id) throws NotFoundBookCustomException {
+    public Book deleteBook(Long id) throws NotFoundResourceCustomException {
         int rows = repository.deleteBook(id);
         return null;
     }

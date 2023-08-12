@@ -1,6 +1,6 @@
 package com.api.BooksApiWithMySql.repository;
 
-import com.api.BooksApiWithMySql.exceptions.NotFoundBookCustomException;
+import com.api.BooksApiWithMySql.exceptions.NotFoundResourceCustomException;
 import com.api.BooksApiWithMySql.models.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -21,17 +21,17 @@ public class BooksJdbcRepository implements BaseBooksJdbcRepository {
     }
 
     @Override
-    public Book getBookById(Long id) throws NotFoundBookCustomException {
+    public Book getBookById(Long id) throws NotFoundResourceCustomException {
         try {
             Book book = jdbcTemplate.queryForObject("SELECT * FROM books WHERE id=?",
                     BeanPropertyRowMapper.newInstance(Book.class), id);
 
             if (book == null) {
-                throw new NotFoundBookCustomException("There is no book with that ID !!");
+                throw new NotFoundResourceCustomException("There is no book with that ID !!");
             }
             return book;
         } catch (IncorrectResultSizeDataAccessException e) {
-            throw new NotFoundBookCustomException("There is no book with that ID !!");
+            throw new NotFoundResourceCustomException("There is no book with that ID !!");
         }
     }
 
@@ -48,14 +48,14 @@ public class BooksJdbcRepository implements BaseBooksJdbcRepository {
     }
 
     @Override
-    public int updateBook(Long id, Book book) throws NotFoundBookCustomException {
+    public int updateBook(Long id, Book book) throws NotFoundResourceCustomException {
         getBookById(id);
         return jdbcTemplate.update("UPDATE books SET title=?, author=?, description=?,price=?,quantity=? WHERE id=?",
                 book.getTitle(), book.getAuthor(), book.getDescription(), book.getPrice(), book.getQuantity() ,id);
     }
 
     @Override
-    public int deleteBook(Long id) throws NotFoundBookCustomException {
+    public int deleteBook(Long id) throws NotFoundResourceCustomException {
         getBookById(id);
         return jdbcTemplate.update("DELETE FROM books WHERE id=?", id);
     }

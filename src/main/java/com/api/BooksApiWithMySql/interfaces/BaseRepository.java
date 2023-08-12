@@ -1,7 +1,7 @@
 package com.api.BooksApiWithMySql.interfaces;
 
 
-import com.api.BooksApiWithMySql.exceptions.NotFoundBookCustomException;
+import com.api.BooksApiWithMySql.exceptions.NotFoundResourceCustomException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,5 +14,5 @@ public interface BaseRepository<T> {
 
     List<T> search(String query);
 
-    T getById(Long id) throws NotFoundBookCustomException;
+    T getById(Long id) throws NotFoundResourceCustomException;
 }
