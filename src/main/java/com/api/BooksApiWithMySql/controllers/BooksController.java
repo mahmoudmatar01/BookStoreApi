@@ -1,16 +1,15 @@
 package com.api.BooksApiWithMySql.controllers;
 
-import com.api.BooksApiWithMySql.exceptions.NotFoundBookCustomException;
+import com.api.BooksApiWithMySql.exceptions.NotFoundResourceCustomException;
 import com.api.BooksApiWithMySql.factories.BaseFactory;
 import com.api.BooksApiWithMySql.factories.FailureFactory;
 import com.api.BooksApiWithMySql.factories.SuccessFactory;
 import com.api.BooksApiWithMySql.interfaces.BaseBooksService;
 import com.api.BooksApiWithMySql.models.Book;
 import com.api.BooksApiWithMySql.responses.Response;
-import com.api.BooksApiWithMySql.service.BooksJdbcService;
 import com.api.BooksApiWithMySql.service.BooksJpaService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,80 +58,54 @@ public class BooksController {
 
 
     @GetMapping("/{id}") // api/books/1
-    public ResponseEntity<Response> getBookById(@PathVariable Long id) {
-        try {
-            Book book = service.getBookById(id);
-            SuccessFactory<Book> factory = new SuccessFactory<>(book);
-            return ResponseEntity.ok(factory.createResponse());
-        } catch (NotFoundBookCustomException ex) {
-            FailureFactory factory = new FailureFactory("There is no Book with that ID");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(factory.createResponse());
-        }
+    public ResponseEntity<Response<Book>> getBookById(@PathVariable Long id) throws NotFoundResourceCustomException {
+
+        Book book = service.getBookById(id);
+        SuccessFactory<Book> factory = new SuccessFactory<>(book);
+        return ResponseEntity.ok(factory.createResponse());
+
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response> updateBookById(@PathVariable Long id, @RequestBody Book book) {
-        try {
-            Book b = service.updateBook(id, book);
-            SuccessFactory<Book> factory = new SuccessFactory<>(b);
-            return ResponseEntity.ok(factory.createResponse());
-        } catch (NotFoundBookCustomException e) {
-            FailureFactory factory = new FailureFactory(e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(factory.createResponse());
-        }
+    public ResponseEntity<Response<Book>> updateBookById(@PathVariable Long id, @RequestBody Book book) throws NotFoundResourceCustomException {
+        Book b = service.updateBook(id, book);
+        SuccessFactory<Book> factory = new SuccessFactory<>(b);
+        return ResponseEntity.ok(factory.createResponse());
+
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> deleteBookById(@PathVariable Long id) {
-        try {
-            Book b = service.deleteBook(id);
-            SuccessFactory<Book> factory = new SuccessFactory<>(b);
-            return ResponseEntity.ok(factory.createResponse());
-        } catch (NotFoundBookCustomException e) {
-            FailureFactory factory = new FailureFactory(e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(factory.createResponse());
-        }
+    public ResponseEntity<Response<Book>> deleteBookById(@PathVariable Long id) throws NotFoundResourceCustomException {
+        Book b = service.deleteBook(id);
+        SuccessFactory<Book> factory = new SuccessFactory<>(b);
+        return ResponseEntity.ok(factory.createResponse());
     }
 
     @GetMapping("/price")
-    public ResponseEntity<Response> getBooksWithPrice(
-            @RequestParam(name = "start") double start,
-            @RequestParam(name = "end") double end) {
-        try {
+    public ResponseEntity<Response<List<Book>>> getBooksWithPrice(@RequestParam(name = "start") double start, @RequestParam(name = "end") double end) {
 
-            SuccessFactory<List<Book>> factory = new SuccessFactory<>(service.findBooksWithPriceBetween(start, end));
-            return ResponseEntity.ok(factory.createResponse());
-        } catch (Exception e) {
-            FailureFactory factory = new FailureFactory(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(factory.createResponse());
-        }
+        SuccessFactory<List<Book>> factory = new SuccessFactory<>(service.findBooksWithPriceBetween(start, end));
+        return ResponseEntity.ok(factory.createResponse());
 
     }
 
 
     @GetMapping("/author/{author}")
-    public ResponseEntity<Response> getBooksWithAuthorName(@PathVariable String author) {
-        try {
+    public ResponseEntity<Response<List<Book>>> getBooksWithAuthorName(@PathVariable String author) {
 
-            SuccessFactory<List<Book>> factory = new SuccessFactory<>(service.findBooksByAuthor(author));
-            return ResponseEntity.ok(factory.createResponse());
-        } catch (Exception e) {
-            FailureFactory factory = new FailureFactory(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(factory.createResponse());
-        }
+
+        SuccessFactory<List<Book>> factory = new SuccessFactory<>(service.findBooksByAuthor(author));
+        return ResponseEntity.ok(factory.createResponse());
+
     }
 
 
     @GetMapping("/title/{title}")
-    public ResponseEntity<Response> getBooksWithTitle(@PathVariable String title){
-        try {
+    public ResponseEntity<Response<List<Book>>> getBooksWithTitle(@PathVariable String title) {
 
-            SuccessFactory<List<Book>> factory = new SuccessFactory<>(service.findBooksByTitle(title));
-            return ResponseEntity.ok(factory.createResponse());
-        } catch (Exception e) {
-            FailureFactory factory = new FailureFactory(e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(factory.createResponse());
-        }
+        SuccessFactory<List<Book>> factory = new SuccessFactory<>(service.findBooksByTitle(title));
+        return ResponseEntity.ok(factory.createResponse());
+
     }
 
     /*
