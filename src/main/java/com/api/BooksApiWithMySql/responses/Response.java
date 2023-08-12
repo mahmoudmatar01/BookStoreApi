@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Response<T> {
+    private final int statusCode;
     private final boolean status;
     private final String message;
     private final T data;
