@@ -1,9 +1,10 @@
 package com.api.BooksApiWithMySql.exceptions;
 
-public class NotFoundBookCustomException extends Exception {
+public class NotFoundResourceCustomException extends Exception {
     private final String message;
 
-    public NotFoundBookCustomException(String message) {
+    public NotFoundResourceCustomException(String message) {
+        super(message);
         this.message = message;
     }
 

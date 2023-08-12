@@ -1,6 +1,6 @@
 package com.api.BooksApiWithMySql.repository;
 
-import com.api.BooksApiWithMySql.exceptions.NotFoundBookCustomException;
+import com.api.BooksApiWithMySql.exceptions.NotFoundResourceCustomException;
 import com.api.BooksApiWithMySql.interfaces.BaseRepository;
 import com.api.BooksApiWithMySql.models.Book;
 import org.springframework.stereotype.Repository;
@@ -30,21 +30,21 @@ public class BooksRepository implements BaseRepository<Book> {
     }
 
     @Override
-    public Book getById(Long id) throws NotFoundBookCustomException {
+    public Book getById(Long id) throws NotFoundResourceCustomException {
         return books.stream()
                 .filter(b -> Objects.equals(b.getId(), id))
                 .findFirst()
                 .orElseThrow(() ->
-                        new NotFoundBookCustomException("There is no book with that ID")
+                        new NotFoundResourceCustomException("There is no book with that ID")
                 );
     }
 
-    public Book getById(int id) throws NotFoundBookCustomException {
+    public Book getById(int id) throws NotFoundResourceCustomException {
         return books.stream()
                 .filter(b -> b.getId() == id)
                 .findFirst()
                 .orElseThrow(() ->
-                        new NotFoundBookCustomException("There is no book with that ID")
+                        new NotFoundResourceCustomException("There is no book with that ID")
                 );
     }
 }

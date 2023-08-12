@@ -1,12 +1,11 @@
 package com.api.BooksApiWithMySql.service;
 
-import com.api.BooksApiWithMySql.exceptions.NotFoundBookCustomException;
+import com.api.BooksApiWithMySql.exceptions.NotFoundResourceCustomException;
 import com.api.BooksApiWithMySql.interfaces.BaseBooksService;
 import com.api.BooksApiWithMySql.models.Book;
 import com.api.BooksApiWithMySql.repository.BooksJpaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,13 +40,13 @@ public class BooksJpaService extends BaseBooksService {
     }
 
     @Override
-    public Book getBookById(Long id) throws NotFoundBookCustomException {
+    public Book getBookById(Long id) throws NotFoundResourceCustomException {
         return repository.findById(id).orElseThrow(
-                () -> new NotFoundBookCustomException("There is no Book with that Id"));
+                () -> new NotFoundResourceCustomException("There is no Book with that Id"));
     }
 
     @Override
-    public Book updateBook(Long id, Book book) throws NotFoundBookCustomException {
+    public Book updateBook(Long id, Book book) throws NotFoundResourceCustomException {
         Book b = getBookById(id);
 
         // there is no exception :
@@ -63,7 +62,7 @@ public class BooksJpaService extends BaseBooksService {
     }
 
     @Override
-    public Book deleteBook(Long id) throws NotFoundBookCustomException {
+    public Book deleteBook(Long id) throws NotFoundResourceCustomException {
         Book book = getBookById(id);
         repository.delete(book);
         return book;

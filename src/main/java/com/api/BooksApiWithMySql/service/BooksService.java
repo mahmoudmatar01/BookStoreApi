@@ -1,7 +1,7 @@
 package com.api.BooksApiWithMySql.service;
 
 
-import com.api.BooksApiWithMySql.exceptions.NotFoundBookCustomException;
+import com.api.BooksApiWithMySql.exceptions.NotFoundResourceCustomException;
 import com.api.BooksApiWithMySql.interfaces.BaseBooksService;
 import com.api.BooksApiWithMySql.interfaces.BaseRepository;
 import com.api.BooksApiWithMySql.models.Book;
@@ -39,17 +39,17 @@ abstract public class BooksService extends BaseBooksService {
     }
 
     @Override
-    public Book getBookById(Long id) throws NotFoundBookCustomException {
+    public Book getBookById(Long id) throws NotFoundResourceCustomException {
         return repository.getById(id);
     }
 
     @Override
-    public Book updateBook(Long id, Book book) throws NotFoundBookCustomException {
+    public Book updateBook(Long id, Book book) throws NotFoundResourceCustomException {
         return null;
     }
 
     @Override
-    public Book deleteBook(Long id) throws NotFoundBookCustomException {
+    public Book deleteBook(Long id) throws NotFoundResourceCustomException {
         return null;
     }
 }
