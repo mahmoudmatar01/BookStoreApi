@@ -36,7 +36,7 @@ public class BooksJpaService extends BaseBooksService {
 
     @Override
     public List<Book> searchBook(String query) {
-        return repository.findByTitleContainingOrAuthorContaining(query, query);
+        return repository.findBooksByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(query, query);
     }
 
     @Override
@@ -70,17 +70,17 @@ public class BooksJpaService extends BaseBooksService {
 
     @Override
     public List<Book> findBooksWithPriceBetween(double start, double end) {
-        return repository.findBooksByPriceBetweenOrderByPriceDesc(start,end);
+        return repository.findBooksByPriceBetweenOrderByPriceDesc(start, end);
     }
 
     @Override
-    public List<Book> findBooksByTitle(String title) {
-       return repository.findBookByTitleLikeOrderByPriceDesc(title);
+    public Book findBooksByTitle(String title) {
+        return repository.findBookByTitleLike(title);
     }
 
     @Override
     public List<Book> findBooksByAuthor(String author) {
-       return repository.findBookByAuthorLikeOrderByPriceDesc(author);
+        return repository.findBookByAuthorLikeOrderByPriceDesc(author);
     }
 
 

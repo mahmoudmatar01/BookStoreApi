@@ -22,7 +22,7 @@ public abstract class BaseBooksService {
 
     abstract public List<Book> findBooksWithPriceBetween(double start, double end);
 
-    abstract public List<Book> findBooksByTitle(String title);
+    abstract public Book findBooksByTitle(String title);
 
     abstract public List<Book> findBooksByAuthor(String author);
 }
