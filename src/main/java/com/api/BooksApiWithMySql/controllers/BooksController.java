@@ -101,9 +101,9 @@ public class BooksController {
 
 
     @GetMapping("/title/{title}")
-    public ResponseEntity<Response<List<Book>>> getBooksWithTitle(@PathVariable String title) {
+    public ResponseEntity<Response<Book>> getBooksWithTitle(@PathVariable String title) {
 
-        SuccessFactory<List<Book>> factory = new SuccessFactory<>(service.findBooksByTitle(title));
+        SuccessFactory<Book> factory = new SuccessFactory<>(service.findBooksByTitle(title));
         return ResponseEntity.ok(factory.createResponse());
 
     }
