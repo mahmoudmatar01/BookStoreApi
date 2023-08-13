@@ -1,5 +1,6 @@
 package com.api.BooksApiWithMySql;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -14,12 +15,12 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-//@EnableJpaRepositories("com.api.BooksApiWithMySql.repository")
-@ComponentScan
-// Specify the package where your repository is located
-//@EntityScan("com.api.BooksApiWithMySql.models")
 public class BooksApiWithMySqlApplication {
 
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
     public static void main(String[] args) {
         SpringApplication.run(BooksApiWithMySqlApplication.class, args);
     }

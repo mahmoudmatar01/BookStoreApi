@@ -1,5 +1,6 @@
 package com.api.BooksApiWithMySql.controllers;
 
+import com.api.BooksApiWithMySql.DTOs.BookDto;
 import com.api.BooksApiWithMySql.exceptions.NotFoundResourceCustomException;
 import com.api.BooksApiWithMySql.factories.BaseFactory;
 import com.api.BooksApiWithMySql.factories.FailureFactory;
@@ -9,11 +10,13 @@ import com.api.BooksApiWithMySql.models.Book;
 import com.api.BooksApiWithMySql.responses.Response;
 import com.api.BooksApiWithMySql.service.BooksJpaService;
 import lombok.SneakyThrows;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,6 +30,8 @@ public class BooksController {
         this.service = service;
     }
 
+    @Autowired
+    private ModelMapper modelMapper;
 
     // For JDBC Service :
 //    @Autowired
@@ -37,13 +42,14 @@ public class BooksController {
     //    @RequestMapping(method=GET)
     @GetMapping("/")
     public ResponseEntity<Response<List<Book>>> getBooks() {
-        BaseFactory<List<Book>> factory = new SuccessFactory<List<Book>>(service.getAllBooks());
+        BaseFactory<List<Book>> factory = new SuccessFactory<>(service.getAllBooks());
         return ResponseEntity.ok(factory.createResponse());
     }
 
 
     @PostMapping("/")
-    public ResponseEntity<Response<Book>> addBook(@RequestBody Book book) {
+    public ResponseEntity<Response<Book>> addBook(@Valid @RequestBody BookDto dto) {
+        Book book = modelMapper.map(dto, Book.class);
         service.addBook(book);
         SuccessFactory<Book> factory = new SuccessFactory<>(book);
         return ResponseEntity.ok(factory.createResponse());
@@ -67,8 +73,8 @@ public class BooksController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response<Book>> updateBookById(@PathVariable Long id, @RequestBody Book book) throws NotFoundResourceCustomException {
-        Book b = service.updateBook(id, book);
+    public ResponseEntity<Response<Book>> updateBookById(@PathVariable Long id, @Valid @RequestBody BookDto dto) throws NotFoundResourceCustomException {
+        Book b = service.updateBook(id, modelMapper.map(dto, Book.class));
         SuccessFactory<Book> factory = new SuccessFactory<>(b);
         return ResponseEntity.ok(factory.createResponse());
 
