@@ -67,8 +67,9 @@ public class BooksController {
     public ResponseEntity<Response<Book>> getBookById(@PathVariable Long id) throws NotFoundResourceCustomException {
 
         Book book = service.getBookById(id);
-        SuccessFactory<Book> factory = new SuccessFactory<>(book);
-        return ResponseEntity.ok(factory.createResponse());
+//        SuccessFactory<Book> factory = new SuccessFactory<>(book);
+        Response<Book> response = new Response<>(200,true,null,book);
+        return ResponseEntity.ok(response);
 
     }
 
