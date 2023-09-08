@@ -9,6 +9,8 @@
   🔸Web
   🔸Android
   🔸IOS
+## **Project Hierarchy** 
+![Screenshot 9_8_2023 7_41_09 PM](https://github.com/mahmoudmatar01/BookStoreApi/assets/95046457/e31e4284-36c8-4dff-a128-f373dcfb615c)
 
 # **Main Services & Functionalities**
    🔹Security: User Authentication and Authrization.
